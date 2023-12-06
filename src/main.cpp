@@ -1,10 +1,10 @@
 #include <Arduino.h>
 #include <SPI.h>
 
-const int OE = 13;
+const int OE = 7;
 const int A = 13;
-const int B = 8;
-const int R = 12;
+const int B = 12;
+const int R = 8;
 const int CLK = 2;
 const int SCLK = 4;
 
@@ -26,14 +26,14 @@ int coordToP(int x, int y)
 void setup()
 {
     Serial.begin(9600);
-    
+
     pinMode(OE, OUTPUT);
     pinMode(A, OUTPUT);
     pinMode(B, OUTPUT);
     pinMode(R, OUTPUT);
     pinMode(CLK, OUTPUT);
     pinMode(SCLK, OUTPUT);
-    dw(OE, 0);
+    dw(OE, 1);
     for (int x = 0; x < 32; x++)
     {
         for (int y = 0; y < 16; y++)
@@ -68,6 +68,7 @@ void loop()
                 for (int p = 0; p < 128; p++)
                 {
                     int px = ((p << 2) | c);
+
                     dw(R, !(buf[px]));
                     dw(CLK, 0);
                     dw(CLK, 1);
